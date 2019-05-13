@@ -1,10 +1,15 @@
 import React, { Component } from 'react';
 import { Container, Card } from 'reactstrap';
+// import { jsyaml } from 'js-yaml';
 import { clientID, clientSecret } from '../OAuthCredentials';
 import UserInput from './UserInput';
 import Loading from './Loading';
 import UserStats from './UserStats';
 
+const $ = require('jquery');
+
+let jsyaml = require('js-yaml');
+let fs = require('fs');
 
 const scenes = {
     INPUT: 0,
@@ -16,7 +21,12 @@ class Application extends Component {
 
     state = {
         scene: scenes.INPUT,
-        languageStats: null
+        languageStats: null,
+        languagePalette: null, 
+    }
+
+    componentDidMount() {
+        this.fetchColorPallete();
     }
 
     handleSubmit = async (profile) => {
@@ -46,15 +56,27 @@ class Application extends Component {
         });
     }
 
+    fetchColorPallete = async () => {
+        $.get("https://rawgit.com/github/linguist/master/lib/linguist/languages.yml", (data) => {
+            const languages = jsyaml.safeLoad(data);
+            const keys = Object.keys(languages);
+            let palette = {};
+            keys.forEach(lang => {
+                palette[lang] = languages[lang].color;
+            })
+            this.setState({languagePalette: palette});
+        });        
+    }
+
     getComponent() {
-        const {scene, languageStats} = this.state;
+        const {scene, languageStats, languagePalette} = this.state;
         switch (scene) {
             case scenes.INPUT: 
                 return (<UserInput onSubmit={this.handleSubmit}/>);
             case scenes.LOADING: 
                 return (<Loading/>);
             case scenes.STATS: 
-                return (<UserStats stats={languageStats}/>);
+                return (<UserStats stats={languageStats} palette={languagePalette}/>);
             default: 
                 return (<p>error</p>);
         }
