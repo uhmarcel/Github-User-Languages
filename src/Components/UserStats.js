@@ -5,7 +5,9 @@ class UserStats extends Component {
     render() {
         return (
             <div>
-                test
+                <p>
+                    {this.props.stats.toString()}
+                </p>
             </div>
         );
     }

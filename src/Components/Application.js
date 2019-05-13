@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Container, Card } from 'reactstrap';
+import { clientID, clientSecret } from '../OAuthCredentials';
 import UserInput from './UserInput';
 import Loading from './Loading';
 import UserStats from './UserStats';
@@ -14,7 +15,8 @@ const scenes = {
 class Application extends Component {
 
     state = {
-        scene: scenes.INPUT
+        scene: scenes.INPUT,
+        languageStats: null
     }
 
     handleSubmit = async (profile) => {
@@ -23,26 +25,36 @@ class Application extends Component {
     }
 
     loadUserAPI = async (profile) => {
-        const URL = 'https://api.github.com/users/' + profile + '/repos';        
+        const oauth = '?client_id=' + clientID + '&client_secret=' + clientSecret;
+        const URL = 'https://api.github.com/users/' + profile + '/repos' + oauth;   
         const userData = await ( await fetch(URL) ).json();   
-        const rawLang = await Promise.all(userData.map(repo => fetch(repo.languages_url)));
-        console.log(rawLang);
+        const rawLang = await Promise.all(userData.map(repo => fetch(repo.languages_url + oauth)));
         const langData = await Promise.all(rawLang.map(raw => raw.json()));
 
-        console.log(langData);
+        let languageStats = {};
+        langData.forEach(repoLang => {
+            const keys = Object.keys(repoLang);
+            keys.forEach(language => {
+                if (!languageStats[language]) 
+                    languageStats[language] = 0;
+                languageStats[language] += repoLang[language];
+            })
+        });
+        this.setState({
+            languageStats,
+            scene: scenes.STATS
+        });
     }
 
-    loadRepoLanguage
-
     getComponent() {
-        const {scene} = this.state;
+        const {scene, languageStats} = this.state;
         switch (scene) {
             case scenes.INPUT: 
                 return (<UserInput onSubmit={this.handleSubmit}/>);
             case scenes.LOADING: 
                 return (<Loading/>);
             case scenes.STATS: 
-                return (<UserStats/>);
+                return (<UserStats stats={languageStats}/>);
             default: 
                 return (<p>error</p>);
         }
