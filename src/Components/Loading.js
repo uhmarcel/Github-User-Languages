@@ -5,7 +5,7 @@ class Loading extends Component {
 
     render() {
         return (
-            <Card style={{height: 'calc(100vh - 20px)'}}>
+            <Card style={{height: 'calc(100vh - 24px)'}}>
                 <Fade className='h-100 d-flex align-items-center m-auto'>
                     <div className='text-center'>
                         <h4>Loading...</h4>

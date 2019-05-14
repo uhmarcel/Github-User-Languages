@@ -5,6 +5,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background: #f8f8f8;
 }
 
 code {
@@ -13,9 +14,7 @@ code {
 }
 
 .appContainer {
-  /* height: 100vh; */
   width: 100vw;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  overflow-y: scroll;
+  padding-top: 12px;
+  padding-bottom: 12px;
 }

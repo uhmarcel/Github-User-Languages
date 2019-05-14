@@ -23,7 +23,7 @@ class UserInput extends Component {
 
     render() {
         return (
-            <Card style={{height: 'calc(100vh - 20px)'}}>
+            <Card style={{height: 'calc(100vh - 24px)'}}>
                 <Fade className='h-100 d-flex align-items-center'>
                     <Container>
                         <h4 className='text-center'>Enter github profile</h4>

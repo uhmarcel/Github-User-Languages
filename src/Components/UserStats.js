@@ -1,7 +1,8 @@
-import React, { Component } from 'react';
-import { Container, Row, Col, Fade, Card} from 'reactstrap';
-import { Line } from 'rc-progress';
-import { Chart } from 'primereact/chart';
+import React, { Component } from 'react'
+import { Container, Row, Col, Fade, Card} from 'reactstrap'
+import ghIcon from '../gh-icon.png'
+import { Line } from 'rc-progress'
+import { Chart } from 'primereact/chart'
 
 class UserStats extends Component {
 
@@ -32,7 +33,10 @@ class UserStats extends Component {
             <Card style={{minHeight: '100vh'}}>
                 <Fade className='h-100'>
                     <div className='w-100'>
-                        <h4 className='text-center mb-4 mt-4'>Language Statistics</h4>
+                        <div className='text-center mb-4 mt-4'>
+                            <img src={ghIcon} alt={'Github mark'}/>
+                            <h4 >Language Statistics</h4>
+                        </div>
                         <Chart 
                             type = 'pie' 
                             data = {languageData}
