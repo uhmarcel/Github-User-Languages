@@ -7,9 +7,7 @@ import Loading from './Loading';
 import UserStats from './UserStats';
 
 const $ = require('jquery');
-
 let jsyaml = require('js-yaml');
-let fs = require('fs');
 
 const scenes = {
     INPUT: 0,
@@ -35,6 +33,7 @@ class Application extends Component {
     }
 
     loadUserAPI = async (profile) => {
+        const {languagePalette} = this.state;
         const oauth = '?client_id=' + clientID + '&client_secret=' + clientSecret;
         const URL = 'https://api.github.com/users/' + profile + '/repos' + oauth;   
         const userData = await ( await fetch(URL) ).json();   
@@ -45,9 +44,13 @@ class Application extends Component {
         langData.forEach(repoLang => {
             const keys = Object.keys(repoLang);
             keys.forEach(language => {
-                if (!languageStats[language]) 
-                    languageStats[language] = 0;
-                languageStats[language] += repoLang[language];
+                if (!languageStats[language]) {
+                    languageStats[language] = {
+                        value: 0,
+                        color: languagePalette[language]
+                    }
+                }
+                languageStats[language].value += repoLang[language];
             })
         });
         this.setState({
@@ -85,9 +88,7 @@ class Application extends Component {
     render() {
         return(
             <Container className='appContainer'>
-                <Card className='h-100'>
                     { this.getComponent() }
-                </Card>
             </Container>
         );
     }

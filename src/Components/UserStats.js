@@ -1,18 +1,17 @@
 import React, { Component } from 'react';
-import { Progress } from 'reactstrap';
+import { Container, Row, Col, Fade, Card} from 'reactstrap';
+import { Line } from 'rc-progress';
 import { Chart } from 'primereact/chart';
 
 class UserStats extends Component {
 
-    formatData(languageStats) {
+    formatData(stats) {
         let data = {
-            labels: Object.keys(languageStats),
-            datasets: [
-                {
-                    data: Object.values(languageStats),
-                    backgroundColor: this.getLanguageColors(languageStats)
-                }
-            ]
+            labels: Object.keys(stats),
+            datasets: [{
+                data: Object.values(stats).map(lang => lang.value),
+                backgroundColor: Object.values(stats).map(lang => lang.color)
+            }]
         }
         return data;
     }
@@ -20,33 +19,44 @@ class UserStats extends Component {
     getLanguageColors(lang) {
         const {palette} = this.props;
         let colors = [];
-        Object.keys(lang).forEach(l => {
-            colors.push(palette[l])
-        });
+        Object.keys(lang).forEach(l => colors.push(palette[l]));
         return colors;
     }
 
     render() {
         const {stats} = this.props;
         const languageData = this.formatData(stats);
-        const max = Math.max(...Object.values(stats));
-        console.log(Object.values(stats));
-        console.log(max);
-        console.log(Object.values(stats)[0]/max);
+        const max = Math.max(...Object.values(stats).map(c => c.value));
+
         return (
-            <div className='h-100 d-flex align-items-center'>
-                <div className='w-100'>
-                    <div className='container'>
-                        {Object.values(stats).map(lang => 
-                                <Progress 
-                                    value={lang*100/max} 
-                                    className='mb-2'
-                                />
-                        )}
+            <Card style={{minHeight: '100vh'}}>
+                <Fade className='h-100'>
+                    <div className='w-100'>
+                        <h4 className='text-center mb-4 mt-4'>Language Statistics</h4>
+                        <Chart 
+                            type = 'pie' 
+                            data = {languageData}
+                            className = 'mb-5'
+                        />
+                        <Container className= 'mb-4'>
+                            {Object.entries(stats).map((lang, key) => 
+                                <Row key={key} className='w-100 d-flex flex-row-reverse m-auto'>
+                                    <Col xs='7'>
+                                        <Line 
+                                            percent = {lang[1].value * 100 / max}
+                                            strokeWidth = '4'
+                                            strokeColor = {lang[1].color}
+                                        />
+                                    </Col>
+                                    <Col xs='auto' className='text-right'>
+                                        {lang[0]}
+                                    </Col>
+                                </Row>
+                            )}
+                        </Container>
                     </div>
-                    <Chart type='pie' data={languageData}/>
-                </div>
-            </div>
+                </Fade>
+            </Card>
         );
     }
 
