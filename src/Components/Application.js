@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Card } from 'reactstrap';
+import { Container } from 'reactstrap';
 // import { jsyaml } from 'js-yaml';
 import { clientID, clientSecret } from '../OAuthCredentials';
 import UserInput from './UserInput';
@@ -7,7 +7,7 @@ import Loading from './Loading';
 import UserStats from './UserStats';
 
 const $ = require('jquery');
-let jsyaml = require('js-yaml');
+const jsyaml = require('js-yaml');
 
 const scenes = {
     INPUT: 0,
@@ -53,8 +53,9 @@ class Application extends Component {
                 languageStats[language].value += repoLang[language];
             })
         });
+        const statsArray = Object.entries(languageStats).sort((A,B) => (B[1].value - A[1].value));
         this.setState({
-            languageStats,
+            languageStats: statsArray,
             scene: scenes.STATS
         });
     }

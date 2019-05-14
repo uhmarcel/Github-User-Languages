@@ -8,10 +8,10 @@ class UserStats extends Component {
 
     formatData(stats) {
         let data = {
-            labels: Object.keys(stats),
+            labels: stats.map(s => s[0]),
             datasets: [{
-                data: Object.values(stats).map(lang => lang.value),
-                backgroundColor: Object.values(stats).map(lang => lang.color)
+                data: stats.map(s => s[1].value),
+                backgroundColor: stats.map(s => s[1].color)
             }]
         }
         return data;
@@ -27,7 +27,7 @@ class UserStats extends Component {
     render() {
         const {stats} = this.props;
         const languageData = this.formatData(stats);
-        const max = Math.max(...Object.values(stats).map(c => c.value));
+        const max = Math.max(...stats.map(s => s[1].value));
 
         return (
             <Card style={{minHeight: '100vh'}}>
@@ -43,7 +43,7 @@ class UserStats extends Component {
                             className = 'mb-5'
                         />
                         <Container className= 'mb-4'>
-                            {Object.entries(stats).map((lang, key) => 
+                            {stats.map((lang, key) => 
                                 <Row key={key} className='w-100 d-flex flex-row-reverse m-auto'>
                                     <Col xs='7'>
                                         <Line 
