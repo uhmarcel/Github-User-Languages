@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Container, Row, Col, Fade, Card} from 'reactstrap'
-import ghIcon from '../gh-icon.png'
+import ghIcon from '../Assets/gh-icon.png'
 import { Line } from 'rc-progress'
 import { Chart } from 'primereact/chart'
 

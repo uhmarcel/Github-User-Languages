@@ -1,13 +1,8 @@
-import React, { Component } from 'react';
-import { Container } from 'reactstrap';
-// import { jsyaml } from 'js-yaml';
-import { clientID, clientSecret } from '../OAuthCredentials';
-import UserInput from './UserInput';
-import Loading from './Loading';
-import UserStats from './UserStats';
-
-const $ = require('jquery');
-const jsyaml = require('js-yaml');
+import React, { Component } from 'react'
+import { Container } from 'reactstrap'
+import UserInput from './UserInput'
+import Loading from './Loading'
+import UserStats from './UserStats'
 
 const scenes = {
     INPUT: 0,
@@ -23,53 +18,35 @@ class Application extends Component {
         languagePalette: null, 
     }
 
-    componentDidMount() {
-        this.fetchColorPallete();
+    getStatsAPI = async (profile) => {
+        const response = await fetch('/api/language-stats', {
+            method: 'POST',
+            body: JSON.stringify({post: profile}),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        const stats = await response.json();
+        console.log(profile);
+        console.log(stats);
+
+        if (response.status !== 200) {
+        throw Error(stats.message) 
+        }
+        return stats;
     }
 
     handleSubmit = async (profile) => {
         this.setState({scene: scenes.LOADING});
-        this.loadUserAPI(profile);
-    }
-
-    loadUserAPI = async (profile) => {
-        const {languagePalette} = this.state;
-        const oauth = '?client_id=' + clientID + '&client_secret=' + clientSecret;
-        const URL = 'https://api.github.com/users/' + profile + '/repos' + oauth;   
-        const userData = await ( await fetch(URL) ).json();   
-        const rawLang = await Promise.all(userData.map(repo => fetch(repo.languages_url + oauth)));
-        const langData = await Promise.all(rawLang.map(raw => raw.json()));
-
-        let languageStats = {};
-        langData.forEach(repoLang => {
-            const keys = Object.keys(repoLang);
-            keys.forEach(language => {
-                if (!languageStats[language]) {
-                    languageStats[language] = {
-                        value: 0,
-                        color: languagePalette[language]
-                    }
-                }
-                languageStats[language].value += repoLang[language];
-            })
-        });
-        const statsArray = Object.entries(languageStats).sort((A,B) => (B[1].value - A[1].value));
+        const stats = await this.getStatsAPI(profile);
+        if (stats.error) {
+            this.setState({scene: scenes.INPUT});
+            return;
+        }
         this.setState({
-            languageStats: statsArray,
+            languageStats: stats,
             scene: scenes.STATS
         });
-    }
-
-    fetchColorPallete = async () => {
-        $.get("https://rawgit.com/github/linguist/master/lib/linguist/languages.yml", (data) => {
-            const languages = jsyaml.safeLoad(data);
-            const keys = Object.keys(languages);
-            let palette = {};
-            keys.forEach(lang => {
-                palette[lang] = languages[lang].color;
-            })
-            this.setState({languagePalette: palette});
-        });        
     }
 
     getComponent() {
