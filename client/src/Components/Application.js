@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Container } from 'reactstrap'
+import { Container, Fade } from 'reactstrap'
 import UserInput from './UserInput'
 import Loading from './Loading'
 import UserStats from './UserStats'
@@ -14,6 +14,7 @@ class Application extends Component {
 
     state = {
         scene: scenes.INPUT,
+        nextScene: null,
         languageStats: null,
         languagePalette: null, 
     }
@@ -34,27 +35,34 @@ class Application extends Component {
     }
 
     handleSubmit = async (profile) => {
-        this.setState({scene: scenes.LOADING});
+        this.setState({nextScene: scenes.LOADING});
         const stats = await this.getStatsAPI(profile);
         if (stats.error) {
-            this.setState({scene: scenes.INPUT});
+            this.setState({nextScene: scenes.INPUT});
             return;
         }
         this.setState({
             languageStats: stats,
-            scene: scenes.STATS
+            nextScene: scenes.STATS
         });
     }
 
+    swapScene = async () => {
+        this.setState({
+            scene: this.state.nextScene,
+            nextScene: null
+        })
+    } 
+
     getComponent() {
-        const {scene, languageStats, languagePalette} = this.state;
+        const {scene, languageStats, languagePalette, nextScene} = this.state;
         switch (scene) {
             case scenes.INPUT: 
-                return (<UserInput onSubmit={this.handleSubmit}/>);
+                return (<UserInput onSubmit={this.handleSubmit} nextScene={nextScene} swapScene={this.swapScene}/>);
             case scenes.LOADING: 
-                return (<Loading/>);
+                return (<Loading nextScene={nextScene} swapScene={this.swapScene}/>);
             case scenes.STATS: 
-                return (<UserStats stats={languageStats} palette={languagePalette}/>);
+                return (<UserStats stats={languageStats} palette={languagePalette} nextScene={nextScene} swapScene={this.swapScene}/>);
             default: 
                 return (<p>error</p>);
         }
@@ -63,7 +71,9 @@ class Application extends Component {
     render() {
         return(
             <Container className='appContainer'>
+                <Fade >
                     { this.getComponent() }
+                </Fade>
             </Container>
         );
     }

@@ -1,11 +1,23 @@
-import React, { Component } from 'react';
-import { Card, Input, Container, Button, Fade } from 'reactstrap';
-
+import React, { Component } from 'react'
+import { Card, Input, Container, Button, Fade } from 'reactstrap'
+import ghIcon from '../Assets/gh-icon.png'
 
 class UserInput extends Component {
 
     state = {
-        profile: null
+        profile: null,
+        fadeout: false
+    }
+
+    componentDidUpdate() {
+        const {nextScene} = this.props;
+        const {fadeout} = this.state;
+        if (!fadeout && nextScene) {
+            console.log('works');
+            this.setState({
+                fadeout: true
+            })
+        }
     }
 
     handleChange = (e) => {
@@ -22,12 +34,19 @@ class UserInput extends Component {
     }
 
     render() {
+        const {fadeout} = this.state;
+        const {swapScene} = this.props;
         return (
             <Card style={{height: 'calc(100vh - 24px)'}}>
-                <Fade className='h-100 d-flex align-items-center'>
-                    <Container>
-                        <h4 className='text-center'>Enter github profile</h4>
-                        <div className='text-center mt-4'>
+                <Fade 
+                    className='h-100 d-flex align-items-center'
+                    onExited={swapScene}
+                    in={!fadeout} 
+                >
+                    <Container className='text-center'>
+                        <img src={ghIcon} alt={'Github mark'}/>
+                        <h4 className='mt-2'>Enter github profile</h4>
+                        <div className='mt-4'>
                             <Input 
                                 className='mb-3 text-center'
                                 placeholder='Username' 

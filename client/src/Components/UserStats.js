@@ -6,6 +6,21 @@ import { Chart } from 'primereact/chart'
 
 class UserStats extends Component {
 
+    state = {
+        fadeout: false
+    }
+
+    componentDidUpdate() {
+        const {nextScene} = this.props;
+        const {fadeout} = this.state;
+        if (!fadeout && nextScene) {
+            console.log('works');
+            this.setState({
+                fadeout: true
+            })
+        }
+    }
+
     formatData(stats) {
         let data = {
             labels: stats.map(s => s[0]),
@@ -25,13 +40,18 @@ class UserStats extends Component {
     }
 
     render() {
-        const {stats} = this.props;
+        const {stats, swapScene} = this.props;
+        const {fadeout} = this.state;
         const languageData = this.formatData(stats);
         const max = Math.max(...stats.map(s => s[1].value));
 
         return (
             <Card style={{minHeight: '100vh'}}>
-                <Fade className='h-100'>
+                <Fade 
+                    className='h-100'
+                    onExited={swapScene}
+                    in={!fadeout} 
+                >
                     <div className='w-100'>
                         <div className='text-center mb-4 mt-4'>
                             <img src={ghIcon} alt={'Github mark'}/>
