@@ -8,7 +8,10 @@
 // To test, replace the values below by your own OAuth credentials,
 // or leave empty to use regular github API rate.
 
+const CI = process.env ? process.env.clientID : 0;
+const CS = process.env ? process.env.clientSecret : 0;
+
 module.exports = {
-    clientID: process.env.clientID, 
-    clientSecret: process.env.clientSecret
+    clientID: CI, 
+    clientSecret: CS
 }

@@ -2,7 +2,6 @@
   "name": "gh-user-languages",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://uhmarcel.github.io/Github-User-Languages",
   "dependencies": {
     "chart.js": "^2.8.0",
     "gh-pages": "^2.0.1",

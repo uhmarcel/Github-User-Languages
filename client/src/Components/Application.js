@@ -27,9 +27,6 @@ class Application extends Component {
             }
         });
         const stats = await response.json();
-        console.log(profile);
-        console.log(stats);
-
         if (response.status !== 200) {
         throw Error(stats.message) 
         }
