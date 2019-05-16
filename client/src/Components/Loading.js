@@ -10,8 +10,7 @@ class Loading extends Component {
     componentDidUpdate() {
         const {nextScene} = this.props;
         const {fadeout} = this.state;
-        if (!fadeout && nextScene) {
-            console.log('works');
+        if (!fadeout && nextScene !== null) {
             this.setState({
                 fadeout: true
             })
