@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Container, Fade } from 'reactstrap'
+import { Container } from 'reactstrap'
 import UserInput from './UserInput'
 import Loading from './Loading'
 import UserStats from './UserStats'
@@ -43,7 +43,8 @@ class Application extends Component {
         }
         this.setState({
             languageStats: stats,
-            nextScene: scenes.STATS
+            nextScene: scenes.STATS,
+            profile: profile
         });
     }
 
@@ -55,14 +56,14 @@ class Application extends Component {
     } 
 
     getComponent() {
-        const {scene, languageStats, languagePalette, nextScene} = this.state;
+        const {scene, languageStats, languagePalette, nextScene, profile} = this.state;
         switch (scene) {
             case scenes.INPUT: 
                 return (<UserInput onSubmit={this.handleSubmit} nextScene={nextScene} swapScene={this.swapScene}/>);
             case scenes.LOADING: 
                 return (<Loading nextScene={nextScene} swapScene={this.swapScene}/>);
             case scenes.STATS: 
-                return (<UserStats stats={languageStats} palette={languagePalette} nextScene={nextScene} swapScene={this.swapScene}/>);
+                return (<UserStats stats={languageStats} profile={profile} palette={languagePalette} nextScene={nextScene} swapScene={this.swapScene}/>);
             default: 
                 return (<p>error</p>);
         }
@@ -71,9 +72,7 @@ class Application extends Component {
     render() {
         return(
             <Container className='appContainer'>
-                <Fade >
                     { this.getComponent() }
-                </Fade>
             </Container>
         );
     }

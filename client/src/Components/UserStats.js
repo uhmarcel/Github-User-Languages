@@ -40,10 +40,11 @@ class UserStats extends Component {
     }
 
     render() {
-        const {stats, swapScene} = this.props;
+        const {stats, profile, swapScene} = this.props;
         const {fadeout} = this.state;
         const languageData = this.formatData(stats);
         const max = Math.max(...stats.map(s => s[1].value));
+        const avatarUrl = 'http://github.com/' + profile + '.png?size=40';
 
         return (
             <Card style={{minHeight: '100vh'}}>
@@ -56,6 +57,7 @@ class UserStats extends Component {
                         <div className='text-center mb-4 mt-4'>
                             <img src={ghIcon} alt={'Github mark'}/>
                             <h4 >Language Statistics</h4>
+                            <img src={avatarUrl} alt={'User avatar'} style={{borderRadius: '50%'}}/>
                         </div>
                         <Chart 
                             type = 'pie' 

@@ -9,12 +9,16 @@ const port = process.env.PORT || 5000;
 app.use(express.json());
 
 app.post('/api/language-stats', async (req, res) => {
+  console.log('New request');
+  console.log('fetching API...');
   try {
   const profile = req.body.post;
   const response = await loadUserAPI(profile, colorPalette);
   res.send(response);
+  console.log('Done');
   }
   catch {
+    console.log('Error');
     res.send({
       error: 'user non-existent'
     })
