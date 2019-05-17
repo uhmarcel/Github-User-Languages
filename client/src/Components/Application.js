@@ -19,6 +19,10 @@ class Application extends Component {
         languagePalette: null, 
     }
 
+    componentDidUpdate() {
+        console.log(this.state.scene);
+    }
+
     getStatsAPI = async (profile) => {
         const response = await fetch('/api/language-stats', {
             method: 'POST',

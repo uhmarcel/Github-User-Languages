@@ -14,8 +14,6 @@ code {
 }
 
 .appContainer {
-  width: 100vh;
-  /* max-width: 900px; */
   padding-top: 12px;
   padding-bottom: 12px;
 }

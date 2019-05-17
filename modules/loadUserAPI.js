@@ -2,7 +2,7 @@ const {clientID, clientSecret} = require('./OAuthCredentials');
 const fetch = require('node-fetch');
 
 module.exports = async (profile, palette) => {
-    const oauth = '?client_id=' + clientID + '&client_secret=' + clientSecret;
+    const oauth = '?per_page=100&client_id=' + clientID + '&client_secret=' + clientSecret;
     const URL = 'https://api.github.com/users/' + profile + '/repos' + oauth;   
     const userData = await ( await fetch(URL) ).json();   
     if (userData.message) {

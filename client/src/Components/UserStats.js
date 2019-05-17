@@ -13,10 +13,7 @@ class UserStats extends Component {
     componentDidUpdate() {
         const {nextScene} = this.props;
         const {fadeout} = this.state;
-        console.log(nextScene);
-        console.log(fadeout);
         if (!fadeout && nextScene !== null) {
-            console.log('works');
             this.setState({
                 fadeout: true
             })
