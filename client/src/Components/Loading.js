@@ -27,7 +27,7 @@ class Loading extends Component {
                     onExited={swapScene}
                     in={!fadeout} 
                 >
-                    <div className='text-center'>
+                    <div className='text-center mb-5'>
                         <h4>Loading...</h4>
                         <Spinner color="primary" className='mt-2'/> 
                     </div>

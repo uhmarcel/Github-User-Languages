@@ -10,17 +10,17 @@ app.use(express.json());
 
 app.post('/api/language-stats', async (req, res) => {
   console.log('New request');
-  console.log('fetching API...');
   try {
   const profile = req.body.post;
+  console.log('fetching API for ' + profile + '...');
   const response = await loadUserAPI(profile, colorPalette);
   res.send(response);
   console.log('Done');
   }
-  catch {
-    console.log('Error');
+  catch (e) {
+    console.log('Error: ' + e.message);
     res.send({
-      error: 'user non-existent'
+      error: 'User does not exist'
     })
   }
 });

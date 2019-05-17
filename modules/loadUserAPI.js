@@ -5,6 +5,10 @@ module.exports = async (profile, palette) => {
     const oauth = '?client_id=' + clientID + '&client_secret=' + clientSecret;
     const URL = 'https://api.github.com/users/' + profile + '/repos' + oauth;   
     const userData = await ( await fetch(URL) ).json();   
+    if (userData.message) {
+        return {error: userData.message};
+    }
+    
     const rawLang = await Promise.all(userData.map(repo => fetch(repo.languages_url + oauth)));
     const langData = await Promise.all(rawLang.map(raw => raw.json()));
 

@@ -13,7 +13,6 @@ class UserInput extends Component {
         const {nextScene} = this.props;
         const {fadeout} = this.state;
         if (!fadeout && nextScene) {
-            console.log('works');
             this.setState({
                 fadeout: true
             })
@@ -52,7 +51,7 @@ class UserInput extends Component {
                                 placeholder='Username' 
                                 onChange={this.handleChange}
                             />
-                            <Button color='primary' onClick={this.handleSubmit}>
+                            <Button color='primary mb-4' onClick={this.handleSubmit}>
                                 Submit
                             </Button>
                         </div>

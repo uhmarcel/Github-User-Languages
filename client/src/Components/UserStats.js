@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Container, Row, Col, Fade, Card} from 'reactstrap'
+import { Container, Row, Col, Fade, Card, Button} from 'reactstrap'
 import ghIcon from '../Assets/gh-icon.png'
 import { Line } from 'rc-progress'
 import { Chart } from 'primereact/chart'
@@ -13,7 +13,9 @@ class UserStats extends Component {
     componentDidUpdate() {
         const {nextScene} = this.props;
         const {fadeout} = this.state;
-        if (!fadeout && nextScene) {
+        console.log(nextScene);
+        console.log(fadeout);
+        if (!fadeout && nextScene !== null) {
             console.log('works');
             this.setState({
                 fadeout: true
@@ -32,15 +34,8 @@ class UserStats extends Component {
         return data;
     }
 
-    getLanguageColors(lang) {
-        const {palette} = this.props;
-        let colors = [];
-        Object.keys(lang).forEach(l => colors.push(palette[l]));
-        return colors;
-    }
-
     render() {
-        const {stats, profile, swapScene} = this.props;
+        const {stats, profile, swapScene, setScene} = this.props;
         const {fadeout} = this.state;
         const languageData = this.formatData(stats);
         const max = Math.max(...stats.map(s => s[1].value));
@@ -49,12 +44,12 @@ class UserStats extends Component {
         return (
             <Card style={{minHeight: '100vh'}}>
                 <Fade 
-                    className='h-100'
+                    className='h-100 container'
                     onExited={swapScene}
                     in={!fadeout} 
                 >
                     <div className='w-100'>
-                        <div className='text-center mb-4 mt-4'>
+                        <div className='text-center m-5'>
                             <img src={ghIcon} alt={'Github mark'}/>
                             <h4 >Language Statistics</h4>
                             <img src={avatarUrl} alt={'User avatar'} className='mt-3' style={{
@@ -68,8 +63,9 @@ class UserStats extends Component {
                             type = 'pie' 
                             data = {languageData}
                             className = 'mb-5'
+                            style={{maxWidth: '700px', margin: 'auto'}}
                         />
-                        <Container className= 'mb-4'>
+                        <Container className= 'mb-5' style = {{maxWidth: '700px'}}>
                             {stats.map((lang, key) => 
                                 <Row key={key} className='w-100 d-flex flex-row-reverse m-auto'>
                                     <Col xs='7'>
@@ -85,6 +81,9 @@ class UserStats extends Component {
                                 </Row>
                             )}
                         </Container>
+                        <div className='text-center mb-5'>
+                            <Button color='primary' className='m-auto' onClick={(e) => {e.preventDefault(); setScene(0)}}>Go back</Button>
+                        </div>
                     </div>
                 </Fade>
             </Card>
