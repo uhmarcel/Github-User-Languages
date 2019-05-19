@@ -36,7 +36,7 @@ class UserStats extends Component {
         const {fadeout} = this.state;
         const languageData = this.formatData(stats);
         const max = Math.max(...stats.map(s => s[1].value));
-        const avatarUrl = 'http://github.com/' + profile + '.png?size=100';
+        const avatarUrl = 'https://github.com/' + profile + '.png?size=100';
 
         return (
             <Card style={{minHeight: '100vh'}}>
