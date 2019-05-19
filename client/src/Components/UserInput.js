@@ -24,7 +24,8 @@ class UserInput extends Component {
         this.setState({profile});
     }
 
-    handleSubmit = () => {
+    handleSubmit = (e) => {
+        e.preventDefault();
         const {onSubmit} = this.props;
         const {profile} = this.state;
         if (onSubmit && profile) {
@@ -45,16 +46,16 @@ class UserInput extends Component {
                     <Container className='text-center'>
                         <img src={ghIcon} alt={'Github mark'}/>
                         <h4 className='mt-2'>Enter github profile</h4>
-                        <div className='mt-4'>
+                        <form className='mt-4' onSubmit={this.handleSubmit}>
                             <Input 
                                 className='mb-3 text-center'
                                 placeholder='Username' 
                                 onChange={this.handleChange}
                             />
-                            <Button color='primary mb-4' onClick={this.handleSubmit}>
+                            <Button color='primary mb-4'>
                                 Submit
                             </Button>
-                        </div>
+                        </form>
                     </Container>
                 </Fade>
             </Card>
