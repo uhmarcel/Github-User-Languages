@@ -40,7 +40,8 @@ class UserStats extends Component {
         const max = Math.max(...stats.map(s => s[1].value));
         const avatarUrl = 'https://github.com/' + profile + '.png?size=100';
         const chartOptions = fadeout ? {animation: {animateRotate: false}} : {}; // Fixes fadeout bug
-
+        const msg = stats.length === 0 ? (<p className='text-center text-secondary'> User does not have repositories </p>) : '';
+        
         return (
             <Card style={{minHeight: '100vh'}}>
                 <Fade 
@@ -59,6 +60,7 @@ class UserStats extends Component {
                             }}/>
                             <p className='text-secondary'>{profile}</p>
                         </div>
+                        {msg}
                         <Chart 
                             type = 'pie' 
                             data = {languageData}
