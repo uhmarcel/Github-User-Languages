@@ -7,7 +7,7 @@ import { Chart } from 'primereact/chart'
 class UserStats extends Component {
 
     state = {
-        fadeout: false
+        fadeout: true
     }
 
     componentDidUpdate() {
@@ -53,11 +53,17 @@ class UserStats extends Component {
                         <div className='text-center m-5'>
                             <img src={ghIcon} alt={'Github mark'}/>
                             <h4 >Language Statistics</h4>
-                            <img src={avatarUrl} alt={'User avatar'} className='mt-3' style={{
-                                borderRadius: '10%',
-                                height: '100px',
-                                width: '100px'
-                            }}/>
+                            <img 
+                                src={avatarUrl} 
+                                alt={'User avatar'} 
+                                className='mt-3' 
+                                onLoad={()=>this.setState({fadeout: false})}
+                                style={{
+                                    borderRadius: '10%',
+                                    height: '100px',
+                                    width: '100px'
+                                }}
+                            />
                             <p className='text-secondary'>{profile}</p>
                         </div>
                         {msg}
