@@ -27,7 +27,7 @@ class UserInput extends Component {
     handleSubmit = () => {
         const {onSubmit} = this.props;
         const {profile} = this.state;
-        if (onSubmit) {
+        if (onSubmit && profile) {
             onSubmit(profile);
         }
     }

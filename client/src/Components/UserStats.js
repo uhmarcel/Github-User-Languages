@@ -31,12 +31,15 @@ class UserStats extends Component {
         return data;
     }
 
+    
+
     render() {
         const {stats, profile, swapScene, setScene} = this.props;
         const {fadeout} = this.state;
         const languageData = this.formatData(stats);
         const max = Math.max(...stats.map(s => s[1].value));
         const avatarUrl = 'https://github.com/' + profile + '.png?size=100';
+        const chartOptions = fadeout ? {animation: {animateRotate: false}} : {}; // Fixes fadeout bug
 
         return (
             <Card style={{minHeight: '100vh'}}>
@@ -61,6 +64,7 @@ class UserStats extends Component {
                             data = {languageData}
                             className = 'mb-5'
                             style={{maxWidth: '700px', margin: 'auto'}}
+                            options={chartOptions}
                         />
                         <Container className= 'mb-5' style = {{maxWidth: '700px'}}>
                             {stats.map((lang, key) => 

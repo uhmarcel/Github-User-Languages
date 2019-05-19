@@ -15,8 +15,7 @@ class Application extends Component {
     state = {
         scene: scenes.INPUT,
         nextScene: null,
-        languageStats: null,
-        languagePalette: null, 
+        languageStats: null
     }
 
     getStatsAPI = async (profile) => {
