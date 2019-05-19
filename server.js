@@ -1,4 +1,3 @@
-const colorPalette = require('./modules/colorPalette');
 const loadUserAPI = require('./modules/loadUserAPI');
 const express = require('express');
 const path = require('path');
@@ -12,13 +11,13 @@ app.post('/api/language-stats', async (req, res) => {
   console.log('New request');
   try {
   const profile = req.body.post;
-  console.log('fetching API for ' + profile + '...');
-  const response = await loadUserAPI(profile, colorPalette);
+  console.log(' - fetching API for ' + profile + '...');
+  const response = await loadUserAPI(profile);
   res.send(response);
-  console.log('Done');
+  console.log(' - Done');
   }
   catch (e) {
-    console.log('Error: ' + e.message);
+    console.log(' - Error: ' + e.message);
     res.send({
       error: 'User does not exist'
     })
