@@ -53,7 +53,7 @@ class UserStats extends Component {
         return (
             <Card style={{minHeight: '100vh'}}>
                 <Fade 
-                    className='h-100 container'
+                    className='h-100'
                     onExited={swapScene}
                     in={!fadeout} 
                 >
