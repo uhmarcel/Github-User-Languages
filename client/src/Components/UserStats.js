@@ -9,7 +9,7 @@ class UserStats extends Component {
     state = {
         fadeout: false
     }
-
+    
     componentDidUpdate() {
         const {nextScene} = this.props;
         const {fadeout} = this.state;
@@ -34,13 +34,21 @@ class UserStats extends Component {
     
 
     render() {
-        const {stats, profile, swapScene, setScene} = this.props;
+        const {stats, profile, swapScene, setScene, size} = this.props;
         const {fadeout} = this.state;
         const languageData = this.formatData(stats);
         const max = Math.max(...stats.map(s => s[1].value));
         const avatarUrl = 'https://github.com/' + profile + '.png?size=100';
-        const chartOptions = fadeout ? {animation: {animateRotate: false}} : {}; // Fixes fadeout bug
         const msg = stats.length === 0 ? (<p className='text-center text-secondary'> User does not have repositories </p>) : '';
+        
+        const chartOptions = {
+            animation: {
+                animateRotate: !fadeout  
+            },
+            legend: {
+                position: size > 500 ? 'top' : 'none'
+            }
+        }
         
         return (
             <Card style={{minHeight: '100vh'}}>
@@ -72,7 +80,7 @@ class UserStats extends Component {
                             type = 'pie' 
                             data = {languageData}
                             className = 'mb-5'
-                            style={{maxWidth: '700px', margin: 'auto'}}
+                            style={{maxWidth: '700px', margin: 'auto', padding: '0'}}
                             options={chartOptions}
                         />
                         <Container className= 'mb-5' style = {{maxWidth: '700px'}}>

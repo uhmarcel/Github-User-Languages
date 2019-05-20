@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { Container } from 'reactstrap'
 import UserInput from './UserInput'
 import Loading from './Loading'
 import UserStats from './UserStats'
@@ -69,7 +68,7 @@ class Application extends Component {
             case scenes.LOADING: 
                 return (<Loading nextScene={nextScene} swapScene={this.swapScene}/>);
             case scenes.STATS: 
-                return (<UserStats stats={languageStats} profile={profile} palette={languagePalette} nextScene={nextScene} swapScene={this.swapScene} setScene={this.setScene}/>);
+                return (<UserStats stats={languageStats} profile={profile} palette={languagePalette} nextScene={nextScene} swapScene={this.swapScene} setScene={this.setScene} size={this.ref.clientWidth}/>);
             default: 
                 return (<p>error</p>);
         }
@@ -77,9 +76,9 @@ class Application extends Component {
 
     render() {
         return(
-            <Container className='appContainer'>
+            <div className='container appContainer' ref={ref => {this.ref = ref}}>
                     { this.getComponent() }
-            </Container>
+            </div>
         );
     }
 
