@@ -7,7 +7,7 @@ const app = express();
 const port = process.env.PORT || 5000;
 
 const corsMiddleware = cors({
-  origin: 'https://github-languages.marcelriera.com',
+  origin: process.env.ALLOWED_ORIGINS?.split(',') || 'http://localhost:3000',
   optionsSuccessStatus: 200
 })
 
