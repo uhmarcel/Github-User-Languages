@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import UserInput from './UserInput'
 import Loading from './Loading'
 import UserStats from './UserStats'
+import {CONFIG} from "../Config/configuration";
 
 const scenes = {
     INPUT: 0,
@@ -18,7 +19,7 @@ class Application extends Component {
     }
 
     getStatsAPI = async (profile) => {
-        const response = await fetch('/api/language-stats', {
+        const response = await fetch(`${CONFIG.API_URL}/api/language-stats`, {
             method: 'POST',
             body: JSON.stringify({post: profile}),
             headers: {

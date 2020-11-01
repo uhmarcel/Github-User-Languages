@@ -2,7 +2,6 @@ const palette = require('./colorPalette');
 const fetch = require('node-fetch');
 const accessToken = process.env.accessToken;
 
-
 module.exports = async (profile) => {
 
   if (!profile) {
