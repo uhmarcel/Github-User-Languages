@@ -5,7 +5,7 @@
   "dependencies": {
     "chart.js": "^2.8.0",
     "gh-pages": "^2.0.1",
-    "jquery": "^3.4.1",
+    "jquery": "^3.5.0",
     "js-yaml": "^3.13.1",
     "primeicons": "^1.0.0",
     "primereact": "^3.1.3",
