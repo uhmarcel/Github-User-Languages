@@ -1,18 +1,20 @@
 const loadUserAPI = require('./modules/loadUserAPI');
 const express = require('express');
-const path = require('path');
 const cors = require('cors');
+const path = require('path');
 
 const app = express();
 const port = process.env.PORT || 5000;
 
 var corsOptions = {
-  origin: 'https://github-languages.marcelriera.com',
+  origin: 'http://github-languages.marcelriera.com',
   optionsSuccessStatus: 200
 }
 
 app.use(express.json());
 app.use(cors(corsOptions));
+
+app.options('*');
 
 app.post('/api/language-stats', async (req, res) => {
   console.log('New request');
