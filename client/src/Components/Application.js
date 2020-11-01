@@ -18,6 +18,10 @@ class Application extends Component {
         languageStats: null
     }
 
+    componentDidMount() {
+        fetch(`${CONFIG.API_URL}/beat`);
+    }
+
     getStatsAPI = async (profile) => {
         const response = await fetch(`${CONFIG.API_URL}/api/language-stats`, {
             method: 'POST',

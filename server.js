@@ -3,18 +3,28 @@ const express = require('express');
 const cors = require('cors');
 const path = require('path');
 
-const app = express();
-const port = process.env.PORT || 5000;
+const { PORT, ALLOWED_ORIGINS } = process.env;
 
+const app = express();
+const port = PORT || 5000;
 const corsMiddleware = cors({
-  origin: process.env.ALLOWED_ORIGINS?.split(',') || 'http://localhost:3000',
+  origin: ALLOWED_ORIGINS ? ALLOWED_ORIGINS.split(',') : 'http://localhost:3000',
   optionsSuccessStatus: 200
-})
+});
+
+const startTime = Date.now();
 
 app.use(express.json());
 app.use(corsMiddleware);
 
 app.options('*', corsMiddleware);
+
+app.get('/beat', async (red, res) => {
+  const elapsedTime = new Date((Date.now() - startTime)).toISOString();
+  console.log(`- Total uptime ${elapsedTime}`);
+  res.send(`OK - ${elapsedTime}`);
+});
+
 app.post('/api/language-stats', async (req, res) => {
   console.log('New request');
   try {
@@ -31,6 +41,7 @@ app.post('/api/language-stats', async (req, res) => {
     })
   }
 });
+
 
 // Serve web client on this server - DISABLED: CLIENT WILL BE HOSTED ELSEWHERE
 
