@@ -6,16 +6,15 @@ const path = require('path');
 const app = express();
 const port = process.env.PORT || 5000;
 
-var corsOptions = {
-  origin: 'http://github-languages.marcelriera.com',
+const corsMiddleware = cors({
+  origin: 'https://github-languages.marcelriera.com',
   optionsSuccessStatus: 200
-}
+})
 
 app.use(express.json());
-app.use(cors(corsOptions));
+app.use(corsMiddleware);
 
-app.options('*');
-
+app.options('*', corsMiddleware);
 app.post('/api/language-stats', async (req, res) => {
   console.log('New request');
   try {
